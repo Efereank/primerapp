@@ -39,9 +39,14 @@
     "experiments": {
       "typedRoutes": true
     },
-
     "assetBundlePatterns": [
       "@/assets/fonts/Boldonse-Regular.ttf"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "00d14843-8e3c-4fca-80de-44bd98164a86"
+      }
+    }
   }
 }

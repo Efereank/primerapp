@@ -1,30 +1,38 @@
-import { Image, TouchableOpacity, StyleSheet, Dimensions, Platform, View, TextStyle } from 'react-native';
-import React, { useCallback, useRef } from 'react';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useFonts } from 'expo-font';
+import React, { useCallback, useRef } from 'react';
+import { Dimensions, Image, Platform, StyleSheet, TextStyle, View } from 'react-native';
 import YoutubeIframe from 'react-native-youtube-iframe';
+
 
 const { width: screenWidth } = Dimensions.get('window');
 const aspectRatio = 16 / 9; // Relación de aspecto estándar de YouTube
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: 'default',
     alignItems: 'center',
-    gap: 70,
-    width: 40,
+    justifyContent: 'center',
+    gap: 10,
+    width: screenWidth - 30,
+    marginLeft: 16,
+    fontFamily: 'BebasNeue-Regular',
+    fontSize: 35,
   },
 
   titleContainerWeb: {
-    alignItems: 'center', // Centra los elementos hijos horizontalmente
-    justifyContent: 'center', // Centra los elementos hijos verticalmente (opcional, pero útil si hay más espacio)
-    flexDirection: 'column', // Para apilar el título y el subtítulo verticalmente y permitir el centrado
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 
   stepContainer: {
     gap: 8,
     marginBottom: 8,
+    fontFamily: 'BebasNeue-Regular',
+    fontSize: 20,
   },
   reactLogo: {
     height: 250,
@@ -34,11 +42,10 @@ const styles = StyleSheet.create({
     position: 'contain',
   },
 
-
   stepContainerWeb: {
     gap: 8,
     marginBottom: 8,
-    alignItems: 'center', // Esta línea es la clave para centrar el texto en la web
+    alignItems: 'center',
   },
 
   videoContainerMobile: {
@@ -52,29 +59,55 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     width: screenWidth - 32,
-    maxWidth: 600, // Ajusta este valor según lo que consideres similar al ancho móvil
+    maxWidth: 600,
     aspectRatio: 16 / 9,
     marginLeft: 'auto',
     marginRight: 'auto',
+    position: 'relative',
   },
-  iframeWeb: {
+
+  imageContainerWeb: {
+    width: '100%',
+    maxWidth: 1400,
+    height: 600,
+    marginLeft: 'center',
+  },
+
+
+  imageWeb: {
     width: '100%',
     height: '100%',
+    resizeMode: 'cover',
   },
-  button: {
-    marginTop: 10,
-    padding: 10,
-    backgroundColor: '#ddd',
-    borderRadius: 5,
-    marginHorizontal: 5,
+  
+  // Nuevos estilos añadidos
+  headerImageContainer: {
+    position: 'relative',
+    width: '90%',
+  },
+  imageWithText: {
+    height: 30,
+    width: Platform.OS === 'web' ? 1355 : 360,
+    bottom: 0,
+    position: 'cover',
+    height: Platform.OS === 'web' ? 250 : 300,
+    resizeMode: 'cover',
+  },
+  textOverlay: {
+    position: 'absolute',
+    top: Platform.OS === 'web' ? 100 : 125,
+    left: Platform.OS === 'web' ? 70 : 50,
+    right: 20,
   },
 
-  titleFont: { // Nuevo estilo para la fuente del título
-    fontFamily: 'Boldonse-Regular.ttf',
-    fontSize: 25,
-
+  tituloContenido: {
+    fontFamily: 'BebasNeue-Regular',
+    fontSize: 50,
+    color: '#ff7c00',
+    lineHeight: 50,
+    padding: 0,
+    margin: 50,
   },
-
 });
 
 export default function HomeScreen() {
@@ -83,24 +116,35 @@ export default function HomeScreen() {
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
       console.log('video ended!');
-      // Aquí podrías realizar alguna acción al finalizar el video
     }
   }, []);
 
+  const [fontsLoaded] = useFonts({
+    'BebasNeue-Regular': require('@/assets/fonts/BebasNeue-Regular.ttf'),
+  });
+  
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#' }}
       headerImage={
-        <Image
-          source={require('@/assets/images/descargar.jpg')}
-          contentFit="cover"
-          style={styles.reactLogo}
-        />
+        <View style={styles.headerImageContainer}>
+          <Image
+            source={require('@/assets/images/descargar.jpg')}
+            style={styles.imageWithText}
+          />
+          <View style={styles.textOverlay}>
+            <ThemedText style={styles.tituloContenido}></ThemedText>
+          </View>
+        </View>
       }>
       <ThemedView style={Platform.OS === 'web' ? styles.titleContainerWeb : styles.titleContainer}>
-  <ThemedText type="title" style={[Platform.OS === 'web' && { textAlign: 'center' }, styles.titleFont]}>Balloonerism</ThemedText>
-  <ThemedText type="subtitle" style={[Platform.OS === 'web' ? ({ textAlign: 'center' } as TextStyle) : undefined, styles.titleFont]}>Mac Miller</ThemedText>
-</ThemedView>
+        <ThemedText type="title" style={[Platform.OS === 'web' ? styles.titleContainerWeb : styles.titleContainer]}>Balloonerism</ThemedText>
+        <ThemedText type="subtitle" style={[Platform.OS === 'web' && { } as TextStyle, { marginBottom: 4 }]}>Mac Miller</ThemedText>
+      </ThemedView>
       
       <ThemedView style={styles.stepContainer}>
         <ThemedView style={Platform.OS === 'web' ? styles.stepContainerWeb : styles.stepContainer}>
@@ -118,18 +162,11 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
         <ThemedView style={Platform.OS === 'web' ? styles.stepContainerWeb : styles.stepContainer}>
-          <ThemedText type="subtitle">Mac Miller - DJ’s Chord Organ (feat. SZA)</ThemedText>
+          <ThemedText type="subtitle">Mac Miller - DJ's Chord Organ (feat. SZA)</ThemedText>
         </ThemedView>
       </ThemedView>
 
@@ -143,13 +180,6 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
@@ -168,15 +198,7 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
-
 
       <ThemedView style={styles.stepContainer}>
         <ThemedView style={Platform.OS === 'web' ? styles.stepContainerWeb : styles.stepContainer}>
@@ -194,15 +216,7 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
-
 
       <ThemedView style={styles.stepContainer}>
         <ThemedView style={Platform.OS === 'web' ? styles.stepContainerWeb : styles.stepContainer}>
@@ -220,13 +234,6 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
@@ -245,15 +252,7 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
-
 
       <ThemedView style={styles.stepContainer}>
         <ThemedView style={Platform.OS === 'web' ? styles.stepContainerWeb : styles.stepContainer}>
@@ -271,13 +270,6 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
@@ -296,13 +288,6 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
@@ -321,13 +306,6 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>
@@ -346,15 +324,7 @@ export default function HomeScreen() {
           onChangeState={onStateChange}
           style={Platform.OS === 'web' ? styles.iframeWeb : undefined}
         />
-        {/* Opcional: Botón para controlar la reproducción */}
-        {/* <TouchableOpacity onPress={() => youtubeRef.current?.play()} style={styles.button}>
-          <ThemedText>Play</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => youtubeRef.current?.pause()} style={styles.button}>
-          <ThemedText>Pause</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
-
     </ParallaxScrollView>
   );
 }

@@ -20,77 +20,57 @@ export default function TabTwoScreen() {
               />
             }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
+        <ThemedText type="title">92 Til infinity</ThemedText>
       </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
+      
+      <Collapsible title="Mac Miller">
+        <ThemedText>Mac Miller was an American rapper, singer, and record producer. He was born on January 19,
+        1992, in Pittsburgh, Pennsylvania, and began his career in the hip-hop scene as a teenager.</ThemedText>
+          <ThemedText type="defaultSemiBold"></ThemedText>{' '}
         <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
+          <ThemedText type="defaultSemiBold"></ThemedText>{' '}
         </ThemedText>
       </Collapsible>
-      <Collapsible title="Images">
+      <Collapsible title="Discography">
         <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
+        Studio Albums:
+
+Blue Slide Park (2011)   
+Watching Movies with the Sound Off (2013)   
+GO:OD AM (2015)   
+The Divine Feminine (2016)   
+Swimming (2018)   
+Circles (2020)   
+Balloonerism (2025)   
+Mixtapes:
+
+But My Mackin' Ain't Easy (2007) (as Easy Mac)   
+How High (2008) (with Beedie as The Ill Spoken)
+The Jukebox: Prelude to Class Clown (2009)   
+The High Life (2009) (with Most Dope & Big Jerm)
+K.I.D.S. (Kickin' Incredibly Dope Shit) (2010)   
+Best Day Ever (2011)
+I Love Life, Thank You (2011)   
+Macadelic (2012)   
+Run-On Sentences Vol. 1 (2013) (as Larry Fisherman)   
+Stolen Youth (2013) (as Larry Fisherman, with Vince Staples)   
+Delusional Thomas (2013) (as Delusional Thomas)   
+Faces (2014)   
+Run-On Sentences Vol. 2 (2015) (as Larry Fisherman)   
+Live Albums:
+
+Live from Space (2013)   
+Spotify Singles (2018)
+Extended Plays (EPs):
+
+On and On and Beyond (2011)   
+You (2012) (as Larry Lovestein & The Velvet Revival)   
+This discography showcases Mac Miller's evolution as an artist, from his early party-centric sound to his more introspective and experimental later work. His mixtapes were particularly influential in building his early fanbase and often explored different sonic landscapes compared to his studio albums. The posthumous releases, Circles and Balloonerism, offered fans a final glimpse into his artistic vision.
+          <ThemedText type="defaultSemiBold"></ThemedText>
         </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
       </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
+    
+        
     </ParallaxScrollView>
   );
 }
